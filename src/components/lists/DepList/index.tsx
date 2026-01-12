@@ -1,59 +1,48 @@
 import {
+  Box,
   ButtonGroup,
   Card,
   Center,
+  Flex,
   IconButton,
   Pagination,
-  Presence,
   ScrollArea,
-  Stack,
-  Wrap,
+  SimpleGrid,
 } from "@chakra-ui/react";
-import { useDeputados } from "../../../hooks/Deputados";
-import { create } from "zustand";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
-import { useEffect, type CSSProperties } from "react";
-import type { Deputado } from "@/types/Deputados";
-import DepCard from "@/components/cards/DepCard";
-import ErrorBoundaryDF from "@/components/boundaries/error/ErrorBoundaryDF";
-import SuspenseDF from "@/components/boundaries/suspense/SuspenseDF";
 
-const ITENS_PER_PAGE = 10;
-
-type DepListStoreType = {
-  currentPage: number;
-  setCurrentPage: (page: number) => void;
+type DepListPaginationProps = {
+  page: number;
+  setPage: (value: number) => void;
   dataLength: number;
-  setDataLength?: (length: number) => void;
+  itemsPerPage: number;
 };
 
-const paginationStore = create<DepListStoreType>((set) => ({
-  currentPage: 1,
-  setCurrentPage: (page) => set({ currentPage: page }),
-  dataLength: 0,
-  setDataLength: (length) => set({ dataLength: length }),
-}));
-
-const DepListFooter = () => {
-  return (
-    <Stack direction="row" justify="space-between" align="center" mt="4">
-      <DepListFooterPagination />
-    </Stack>
-  );
+type DepListContentType = {
+  data: any[];
+  dataRenderer: (
+    element: any,
+    index: number,
+    elements: any[]
+  ) => React.ReactNode;
 };
 
-const DepListFooterPagination = () => {
-  const { dataLength, currentPage } = paginationStore();
+type DepListProps = DepListPaginationProps & DepListContentType;
+
+const DepListPagination = ({
+  page,
+  setPage,
+  dataLength,
+  itemsPerPage,
+}: DepListPaginationProps) => {
   return (
     <Pagination.Root
       count={dataLength}
-      pageSize={ITENS_PER_PAGE}
-      page={currentPage}
-      onPageChange={(page) =>
-        paginationStore.getState().setCurrentPage(page.page)
-      }
+      pageSize={itemsPerPage}
+      page={page}
+      onPageChange={(page) => setPage(page.page)}
     >
-      <ButtonGroup variant="ghost" size="sm">
+      <ButtonGroup attached variant="ghost" size="sm">
         <Pagination.PrevTrigger asChild>
           <IconButton>
             <LuChevronLeft />
@@ -78,67 +67,51 @@ const DepListFooterPagination = () => {
   );
 };
 
-type DepListContentProps = { scrollBehavior?: CSSProperties["scrollBehavior"] };
-
-const DepListContent = ({ scrollBehavior = "auto" }: DepListContentProps) => {
-  const { data } = useDeputados();
-  const { currentPage } = paginationStore();
-
-  useEffect(() => {
-    if (data && data.length) {
-      paginationStore.getState().setDataLength!(data.length);
-    }
-  }, [data]);
-
+const DepListContent = ({ data, dataRenderer }: DepListContentType) => {
   return (
-    <>
-      <ScrollArea.Root width="100%">
-        <ScrollArea.Viewport style={{ scrollBehavior }}>
-          <ScrollArea.Content>
-            <Wrap columnGap={5} justifyContent="center">
-              {data
-                .slice(
-                  (currentPage - 1) * ITENS_PER_PAGE,
-                  currentPage * ITENS_PER_PAGE
-                )
-                .map((dep: Deputado) => (
-                  <DepCard key={dep.id} {...dep} />
-                ))}
-            </Wrap>
-          </ScrollArea.Content>
-        </ScrollArea.Viewport>
-        <ScrollArea.Scrollbar orientation="vertical">
-          <ScrollArea.Thumb />
-        </ScrollArea.Scrollbar>
-        <ScrollArea.Corner />
-      </ScrollArea.Root>
-    </>
+    <Card.Root height="100%" minH={0}>
+      <Card.Body height="100%" minH={0} p={4}>
+        <ScrollArea.Root height="100%" width="100%" minH={0}>
+          <ScrollArea.Viewport height="100%" minH={0}>
+            <ScrollArea.Content>
+              <Center>
+              <SimpleGrid columns={{ sm: 2, md: 4, lg: 5, xl: 6 }} gap={4} >
+                {data.map(dataRenderer)}
+              </SimpleGrid>
+              </Center>
+            </ScrollArea.Content>
+          </ScrollArea.Viewport>
+          <ScrollArea.Scrollbar>
+            <ScrollArea.Thumb />
+          </ScrollArea.Scrollbar>
+          <ScrollArea.Corner />
+        </ScrollArea.Root>
+      </Card.Body>
+    </Card.Root>
   );
 };
 
-type DepListProps = { scrollBehavior?: CSSProperties["scrollBehavior"] };
-
-const DepList = ({ scrollBehavior = "auto" }: DepListProps) => {
-  const { dataLength } = paginationStore();
+const DepList = ({
+  data,
+  dataRenderer,
+  page,
+  setPage,
+  dataLength,
+  itemsPerPage,
+}: DepListProps) => {
   return (
-    <>
-      <Card.Root width='100%' height='100%'>
-        <Card.Body>
-          <ErrorBoundaryDF>
-            <SuspenseDF>
-              <Center>
-                <DepListContent scrollBehavior={scrollBehavior} />
-              </Center>
-            </SuspenseDF>
-          </ErrorBoundaryDF>
-        </Card.Body>
-      </Card.Root>
-      <Presence present={!!dataLength && dataLength > 0}>
-        <Center>
-          <DepListFooter />
-        </Center>
-      </Presence>
-    </>
+    <Flex flexDirection="column" alignItems="center" height="100%" minH={0}>
+      <Box minH={0} width="100%">
+        <DepListContent data={data} dataRenderer={dataRenderer} />
+      </Box>
+
+      <DepListPagination
+        page={page}
+        setPage={setPage}
+        dataLength={dataLength}
+        itemsPerPage={itemsPerPage}
+      />
+    </Flex>
   );
 };
 
