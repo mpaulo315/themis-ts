@@ -1,11 +1,12 @@
-import { Center, Container, Flex, Grid, Stack } from "@chakra-ui/react";
+import { Container, Grid } from "@chakra-ui/react";
 import Header from "./sections/Header";
 import ErrorBoundaryDF from "@/components/boundaries/error/ErrorBoundaryDF";
 import SuspenseDF from "@/components/boundaries/suspense/SuspenseDF";
 import { Outlet } from "react-router";
 import SidebarDF from "@/sidebar/SidebarDF";
 
-const MainLayout = () => {
+const MainLayout = () => {    
+
   return (
     <>
     <SidebarDF />

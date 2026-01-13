@@ -13,10 +13,6 @@ const SidebarDF = () => {
                 <Drawer.Title>Sidebar</Drawer.Title>
               </Drawer.Header>
               <Drawer.Body>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
               </Drawer.Body>
               <Drawer.Footer>
 

@@ -1,8 +1,17 @@
 import type { Deputado } from "@/types/Deputados";
-import { Card, DataList, Image, Link } from "@chakra-ui/react";
+import {
+  Button,
+  Card,
+  DataList,
+  Dialog,
+  Image,
+  Link,
+  Portal,
+} from "@chakra-ui/react";
+import DataDialog from "./DataDialog";
 
 const DepCard = ({
-  // id,
+  id,
   // uri,
   nome,
   siglaPartido,
@@ -18,7 +27,21 @@ const DepCard = ({
         alt={`${nome} (${siglaPartido}-${siglaUf})`}
       />
       <Card.Body>
-        <Card.Title>{nome}</Card.Title>
+        <Dialog.Root scrollBehavior="inside" key={`dep-${id}`} size="full">
+          <Dialog.Trigger asChild>
+            <Card.Title>
+              <Button variant="plain">{nome}</Button>
+            </Card.Title>
+          </Dialog.Trigger>
+          <Portal>
+            <Dialog.Backdrop />
+            <Dialog.Positioner>
+              <Dialog.Content>
+                <DataDialog id={id} deputado={{id, nome, siglaPartido, siglaUf, urlFoto}}/>
+              </Dialog.Content>
+            </Dialog.Positioner>
+          </Portal>
+        </Dialog.Root>
         <Card.Description>
           <DataList.Root>
             <DataList.Item>
