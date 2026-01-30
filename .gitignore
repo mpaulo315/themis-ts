@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+.tanstack
+.vscode
+.devcontainer
 
 # Editor directories and files
 .vscode/*
