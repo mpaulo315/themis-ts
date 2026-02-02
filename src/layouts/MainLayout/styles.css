@@ -1,0 +1,21 @@
+.ant-layout-sider {
+    border-right: 1px solid var(--ant-color-border)
+}
+
+.ant-layout-sider-trigger {
+    display: flex;
+    justify-content: flex-end;
+
+    border-top: 1px solid var(--ant-color-border);
+    border-right: 1px solid var(--ant-color-border);
+}
+
+.ant-layout-header {
+    border-bottom: 1px solid var(--ant-color-border)
+}
+
+.ant-layout-content {
+    margin: 5;
+    padding: 8px 12px;
+}
+

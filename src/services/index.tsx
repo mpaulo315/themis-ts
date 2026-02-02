@@ -10,5 +10,8 @@ export const fetchListByURL = async (endpoint: String) => {
         },
     });
 
+    if (response.status != 200)
+        throw new Error(`Erro at fetching! Endpoint ${endpoint}`);
+
     return response.data;
 };

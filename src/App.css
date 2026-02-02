@@ -3,3 +3,10 @@ body {
     margin: 0;
 }
 
+* {
+    transition:
+        background-color 0.3s ease-in,
+        /* color 0.3s ease-in, */
+        border-color 0.3s ease-in,
+        box-shadow 0.3s ease-in;
+}
