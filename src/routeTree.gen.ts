@@ -9,12 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as DeputadosRouteImport } from './routes/deputados'
+import { Route as LegislaturasRouteImport } from './routes/legislaturas'
 import { Route as IndexRouteImport } from './routes/index'
 
-const DeputadosRoute = DeputadosRouteImport.update({
-  id: '/deputados',
-  path: '/deputados',
+const LegislaturasRoute = LegislaturasRouteImport.update({
+  id: '/legislaturas',
+  path: '/legislaturas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,37 +25,37 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/deputados': typeof DeputadosRoute
+  '/legislaturas': typeof LegislaturasRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/deputados': typeof DeputadosRoute
+  '/legislaturas': typeof LegislaturasRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/deputados': typeof DeputadosRoute
+  '/legislaturas': typeof LegislaturasRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/deputados'
+  fullPaths: '/' | '/legislaturas'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/deputados'
-  id: '__root__' | '/' | '/deputados'
+  to: '/' | '/legislaturas'
+  id: '__root__' | '/' | '/legislaturas'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DeputadosRoute: typeof DeputadosRoute
+  LegislaturasRoute: typeof LegislaturasRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/deputados': {
-      id: '/deputados'
-      path: '/deputados'
-      fullPath: '/deputados'
-      preLoaderRoute: typeof DeputadosRouteImport
+    '/legislaturas': {
+      id: '/legislaturas'
+      path: '/legislaturas'
+      fullPath: '/legislaturas'
+      preLoaderRoute: typeof LegislaturasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,7 +70,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DeputadosRoute: DeputadosRoute,
+  LegislaturasRoute: LegislaturasRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,9 +1,14 @@
 import MainLayout from "@/layouts/MainLayout";
-import { createRootRoute } from "@tanstack/react-router";
+import type { QueryClient } from "@tanstack/react-query";
+import { createRootRoute, createRootRouteWithContext } from "@tanstack/react-router";
 import { Alert  } from "antd";
 import { Suspense } from "react";
 
-export const Route = createRootRoute({
+type RouteContext = {
+    queryClient: QueryClient
+}
+
+export const Route = createRootRouteWithContext<RouteContext>()({
     shellComponent: ({children}) => (
         <MainLayout>
             <Alert.ErrorBoundary title="Teste">
@@ -23,5 +28,8 @@ export const Route = createRootRoute({
         />
     ),
 
-    pendingComponent: () => <h1>Carregando no pending</h1>
+    pendingComponent: () => <h1>Carregando no pending</h1>,
+
+    wrapInSuspense: true,
+
 });
