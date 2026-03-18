@@ -1,5 +1,8 @@
-export default async function Deputados({ params }: Promise<any>) {
-    const id = (await params).id
+import { fetchDeputados } from "@/services/fetch";
+import DeputadosClient from "./client";
 
-    return <>Deputado {id}</>;
+export default async function Deputados() {
+    const {data} = await fetchDeputados() 
+
+    return <DeputadosClient deputados={data} />;
 }

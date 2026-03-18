@@ -36,15 +36,15 @@ export default function RootLayout({
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
                 <Providers>
-                    <main className="w-screen h-screen">
-                        <div className="flex justify-between w-full px-4 pt-2 h-12">
+                    <main className="w-screen h-screen px-4 py-4 flex flex-col">
+                        <div className="flex justify-between w-full h-10">
                             {breadcrumbs}
                             {filters}
                         </div>
-                        <div className="px-4 pb-2 text-xl font-bold text-foreground capitalize">
+                        <div className="pb-3 text-xl font-bold text-foreground capitalize">
                             {title}
                         </div>
-                        <div className="flex grow px-4 pt-2">
+                        <div className="flex-1 min-h-0 overflow-auto pt-2">
                             {children}
                         </div>
                     </main>

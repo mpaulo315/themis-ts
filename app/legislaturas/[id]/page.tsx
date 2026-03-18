@@ -1,5 +1,5 @@
-export default async function Legislaturas({ params }: Promise<any>) {
-    const id = (await params).id
+export default async function Legislaturas({ params }: PageProps<'/legislaturas/[id]'>) {
+    const {id} = (await params)
 
     return <>Legislatura {id}</>;
 }
